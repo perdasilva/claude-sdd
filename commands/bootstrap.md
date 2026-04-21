@@ -33,6 +33,17 @@ Ask me about:
 
 Write specs/roadmap.md with numbered phases, each containing 3-6 bullet points describing deliverables.
 
-## Step 4: Review
+## Step 4: Commit & PR conventions (specs/conventions.md)
 
-After writing all three files, run a review pass: check for internal consistency across the three documents, gaps, contradictions, and feasibility issues. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.
+Ask me about:
+- Commit message format (e.g., conventional commits, free-form with subject+body, single-line, etc.)
+- Whether commits should include a co-author line or other trailer
+- PR title format (e.g., match commit subject, include phase/ticket reference, etc.)
+- PR description template (e.g., Summary + Test Plan sections, checklist, link to spec, etc.)
+- Any other conventions for branch naming, commit scope, or PR labels
+
+Write specs/conventions.md with sections: Commit Messages, Pull Requests, Branch Naming. Include concrete examples for each format so the conventions are unambiguous.
+
+## Step 5: Review
+
+After writing all four files, run a review pass: check for internal consistency across all documents, gaps, contradictions, and feasibility issues. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.
