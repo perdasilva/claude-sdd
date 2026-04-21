@@ -11,10 +11,10 @@ A set of Claude Code slash commands for spec-driven development. Define your pro
    - `specs/conventions.md` — commit message format, PR templates, branch naming
 
 2. **Phase workflow** — work proceeds in small phases, each with its own spec:
-   - `/next-phase` — finds the next roadmap phase, creates a branch, asks questions, writes a spec directory (`plan.md`, `requirements.md`, `validation.md`), then auto-reviews
-   - `/implement` — builds from the phase spec, follows task groups, verifies validation criteria
-   - `/review` — checks all branch changes for consistency with governing specs
-   - `/ship` — validates everything, asks before committing, creates a PR
+   - `/sdd-plan-next-phase` — finds the next roadmap phase, creates a branch, asks questions, writes a spec directory (`plan.md`, `requirements.md`, `validation.md`), then auto-reviews
+   - `/sdd-implement` — builds from the phase spec, follows task groups, verifies validation criteria
+   - `/sdd-review` — checks all branch changes for consistency with governing specs
+   - `/sdd-ship` — validates everything, asks before committing, creates a PR
 
 ## Installation
 
@@ -24,7 +24,7 @@ Copy the `commands/` directory into your project's `.claude/` folder:
 cp -r /path/to/claude-spec-driven/commands/ your-project/.claude/commands/
 ```
 
-The commands will be available as slash commands in Claude Code: `/bootstrap-sdd`, `/next-phase`, `/implement`, `/review`, `/ship`.
+The commands will be available as slash commands in Claude Code: `/sdd-bootstrap`, `/sdd-plan-next-phase`, `/sdd-implement`, `/sdd-review`, `/sdd-ship`.
 
 ## Spec structure
 
@@ -50,8 +50,8 @@ your-project/
 
 | Command | What it does |
 |---------|-------------|
-| `/bootstrap-sdd` | Create mission.md, tech-stack.md, roadmap.md, and conventions.md interactively |
-| `/next-phase` | Find next roadmap phase, create branch + spec, auto-review |
-| `/implement` | Build from phase spec, verify validation criteria |
-| `/review` | Review branch changes for consistency and correctness |
-| `/ship` | Validate, commit, push, create PR (asks before committing) |
+| `/sdd-bootstrap` | Create mission.md, tech-stack.md, roadmap.md, and conventions.md interactively |
+| `/sdd-plan-next-phase` | Find next roadmap phase, create branch + spec, auto-review |
+| `/sdd-implement` | Build from phase spec, verify validation criteria |
+| `/sdd-review` | Review branch changes for consistency and correctness |
+| `/sdd-ship` | Validate, commit, push, create PR (asks before committing) |
