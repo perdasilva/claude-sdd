@@ -1,0 +1,38 @@
+Help me define the foundation for this project. We will create three governing spec documents under a specs/ directory. Use the AskUserQuestion tool to gather requirements before writing anything.
+
+## Step 1: Mission (specs/mission.md)
+
+Ask me about:
+- What this project does and who it's for
+- Key goals (3-5 bullet points)
+- What's explicitly NOT in scope (non-goals)
+- Core design principles (how we make decisions)
+- Development practices (quality gates, workflow conventions)
+
+Write specs/mission.md with sections: Goals, Non-Goals, Design Principles, Development Practices.
+
+## Step 2: Tech Stack (specs/tech-stack.md)
+
+Ask me about:
+- Language, runtime, and module system
+- Core dependencies and their purpose
+- Dev dependencies (testing, linting, formatting, building)
+- Project structure (directory layout)
+- Build and run commands (and whether to use a Makefile, npm scripts, or other task runner)
+- Containerization (if applicable)
+- CI/CD (if applicable)
+
+Write specs/tech-stack.md with sections for each concern, including a project structure tree and a build commands table.
+
+## Step 3: Roadmap (specs/roadmap.md)
+
+Ask me about:
+- How work should be phased (vertical slices vs horizontal layers vs core-then-extend)
+- What the first few phases should cover
+- How granular each phase should be
+
+Write specs/roadmap.md with numbered phases, each containing 3-6 bullet points describing deliverables.
+
+## Step 4: Review
+
+After writing all three files, run a review pass: check for internal consistency across the three documents, gaps, contradictions, and feasibility issues. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.
