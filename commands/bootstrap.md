@@ -1,4 +1,6 @@
-Help me define the foundation for this project. We will create three governing spec documents under a specs/ directory. Use the AskUserQuestion tool to gather requirements before writing anything.
+Help me define the foundation for this project. We will create four governing spec documents under a specs/ directory.
+
+Important: Use the AskUserQuestion tool at every step to gather my requirements before writing anything. Do not assume — ask.
 
 ## Step 1: Mission (specs/mission.md)
 

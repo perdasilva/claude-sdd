@@ -1,4 +1,6 @@
-Prepare this branch for merge. Follow these steps in order:
+Prepare this branch for merge. Use the AskUserQuestion tool to confirm before any destructive or irreversible action (committing, pushing, creating PRs).
+
+Follow these steps in order:
 
 1. Run the project's full check command (e.g., `make check` or equivalent from specs/tech-stack.md) to verify all quality gates pass.
 2. If a phase spec directory exists on this branch (specs/YYYY-MM-DD-phase-\*/), read its validation.md and verify all acceptance criteria are met. If no phase spec exists, skip this step.

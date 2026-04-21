@@ -1,4 +1,6 @@
-Review all files that have been created or modified in this branch. Check for:
+Review all files that have been created or modified in this branch. Use the AskUserQuestion tool for any issue that has multiple valid resolutions — do not pick one silently.
+
+Check for:
 
 - Internal consistency across all documents (plan, requirements, validation, and any implementation files)
 - Consistency with governing specs (specs/mission.md, specs/tech-stack.md, specs/roadmap.md)
