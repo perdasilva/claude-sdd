@@ -1,4 +1,4 @@
-Help me define the foundation for this project. We will create four governing spec documents under a specs/ directory.
+Help me define the foundation for this project. We will create governing spec documents under a specs/ directory and project-specific workflow commands under .claude/commands/.
 
 Important: Use the AskUserQuestion tool at every step to gather my requirements before writing anything. Do not assume — ask.
 
@@ -41,6 +41,8 @@ For greenfield projects, ask me about:
 
 Write specs/tech-stack.md with sections for each concern, including a project structure tree and a build commands table.
 
+Remember the project's check command (e.g., `make check`, `npm test`, `cargo test`), format command, and whether Docker is used — these will be needed for generating workflow commands in Step 6.
+
 ## Step 3: Roadmap (specs/roadmap.md)
 
 For brownfield projects, propose phases based on what exists vs what's missing or needs improvement. Ask the user to confirm priorities.
@@ -65,6 +67,62 @@ For greenfield projects, ask me about:
 
 Write specs/conventions.md with sections: Commit Messages, Pull Requests, Branch Naming. Include concrete examples for each format so the conventions are unambiguous.
 
-## Step 5: Review
+## Step 5: CLAUDE.md
 
-After writing all four files, run a review pass: check for internal consistency across all documents, gaps, contradictions, and feasibility issues. For brownfield projects, also verify that the specs accurately reflect the existing codebase. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.
+Create a CLAUDE.md at the project root with:
+- Project overview (one paragraph)
+- Architecture summary (if applicable, from tech stack)
+- Key design principles (from mission)
+- How to build, test, and run (from tech stack — list the actual commands)
+- Phase-based workflow description and slash command reference (from the commands generated in Step 6)
+- Conventions summary (from conventions)
+
+## Step 6: Generate project-specific workflow commands
+
+Create four slash commands under .claude/commands/, customized to this project's tech stack and conventions:
+
+### .claude/commands/sdd-plan-next-phase.md
+
+Generate a command that:
+- Checks out main and pulls latest
+- Finds the next phase in specs/roadmap.md
+- Creates a new branch
+- Uses AskUserQuestion to ask about the feature spec before writing
+- Creates a spec directory (YYYY-MM-DD-phase-N-name/) with plan.md, requirements.md, validation.md
+- References specs/mission.md and specs/tech-stack.md for guidance
+- Auto-runs a review pass after writing
+
+### .claude/commands/sdd-implement.md
+
+Generate a command that:
+- Reads the phase spec (plan.md, requirements.md, validation.md)
+- Follows task groups in order
+- Verifies validation criteria after implementation
+- Runs the project's actual check command (e.g., `make check`, `npm test`, `cargo test` — use whatever was defined in specs/tech-stack.md)
+- Uses AskUserQuestion for uncovered decisions
+
+### .claude/commands/sdd-review.md
+
+Generate a command that:
+- Reviews all files changed on the branch
+- Checks internal consistency and consistency with governing specs
+- Checks whether CLAUDE.md or governing specs need updating
+- Uses AskUserQuestion for multi-option issues
+- Applies straightforward fixes directly
+
+### .claude/commands/sdd-ship.md
+
+Generate a command that:
+- Runs the project's actual check command
+- Runs the project's build/container verification if applicable (e.g., `make docker-build` — only if Docker was set up in tech stack)
+- Verifies validation criteria from the phase spec (if one exists)
+- Checks CLAUDE.md freshness
+- Runs the project's format command
+- Reads specs/conventions.md for commit and PR format
+- Uses AskUserQuestion to confirm before committing
+- Handles squashing post-review fixes into a single commit
+- Creates or updates the PR following the project's conventions
+
+## Step 7: Review
+
+After writing all files, run a review pass: check for internal consistency across all documents and generated commands, gaps, contradictions, and feasibility issues. For brownfield projects, also verify that the specs accurately reflect the existing codebase. Verify the generated commands reference the correct project-specific commands. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.

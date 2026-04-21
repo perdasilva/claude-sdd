@@ -1,34 +1,51 @@
 # claude-spec-driven
 
-A set of Claude Code slash commands for spec-driven development. Define your project's mission, tech stack, and roadmap as governing specs, then use phase-based commands to plan, implement, review, and ship work incrementally.
+A single Claude Code slash command that bootstraps spec-driven development for any project. It creates governing spec documents and generates project-specific workflow commands customized to your tech stack.
 
 ## How it works
 
-1. **Bootstrap** — `/bootstrap-sdd` walks you through creating four governing spec documents:
+Run `/sdd-bootstrap` in any project. It will:
+
+1. **Detect brownfield vs greenfield** — analyzes existing code, configs, and docs to pre-fill what it can
+2. **Create governing specs** — walks you through defining:
    - `specs/mission.md` — goals, non-goals, design principles, development practices
    - `specs/tech-stack.md` — language, dependencies, project structure, build commands
    - `specs/roadmap.md` — phased implementation plan with deliverables
    - `specs/conventions.md` — commit message format, PR templates, branch naming
+3. **Create CLAUDE.md** — project context for Claude Code
+4. **Generate project-specific workflow commands** — four slash commands customized to your tech stack:
 
-2. **Phase workflow** — work proceeds in small phases, each with its own spec:
-   - `/sdd-plan-next-phase` — finds the next roadmap phase, creates a branch, asks questions, writes a spec directory (`plan.md`, `requirements.md`, `validation.md`), then auto-reviews
-   - `/sdd-implement` — builds from the phase spec, follows task groups, verifies validation criteria
-   - `/sdd-review` — checks all branch changes for consistency with governing specs
-   - `/sdd-ship` — validates everything, asks before committing, creates a PR
+| Generated command | What it does |
+|-------------------|-------------|
+| `/sdd-plan-next-phase` | Find next roadmap phase, create branch + spec, auto-review |
+| `/sdd-implement` | Build from phase spec, verify validation criteria |
+| `/sdd-review` | Review branch changes for consistency and correctness |
+| `/sdd-ship` | Validate, commit, push, create PR (asks before committing) |
+
+The generated commands use your project's actual build/test/format commands (e.g., `make check` vs `cargo test`) and follow your commit/PR conventions. They live in your project and can evolve with it.
 
 ## Installation
 
-Copy the `commands/` directory into your project's `.claude/` folder:
+Install `sdd-bootstrap` as a user-level command so it's available in any project:
 
 ```bash
-cp -r /path/to/claude-spec-driven/commands/ your-project/.claude/commands/
+# Clone the repo
+git clone https://github.com/perdasilva/claude-spec-driven.git ~/.claude-spec-driven
+
+# Symlink the bootstrap command
+mkdir -p ~/.claude/commands
+ln -s ~/.claude-spec-driven/commands/sdd-bootstrap.md ~/.claude/commands/sdd-bootstrap.md
 ```
 
-The commands will be available as slash commands in Claude Code: `/sdd-bootstrap`, `/sdd-plan-next-phase`, `/sdd-implement`, `/sdd-review`, `/sdd-ship`.
+Then in any project, run `/sdd-bootstrap` to set everything up.
 
-## Spec structure
+To update:
 
-After bootstrapping, your project will have:
+```bash
+cd ~/.claude-spec-driven && git pull
+```
+
+## Project structure after bootstrapping
 
 ```
 your-project/
@@ -37,21 +54,15 @@ your-project/
 │   ├── tech-stack.md                       # Dependencies, structure, commands
 │   ├── roadmap.md                          # Phased implementation plan
 │   ├── conventions.md                      # Commit, PR, and branch conventions
-│   └── YYYY-MM-DD-phase-N-name/           # Per-phase specs (created by /next-phase)
+│   └── YYYY-MM-DD-phase-N-name/           # Per-phase specs (created by /sdd-plan-next-phase)
 │       ├── plan.md                         # Numbered task groups
 │       ├── requirements.md                 # Scope, decisions, context
 │       └── validation.md                   # Acceptance criteria
 ├── .claude/
-│   └── commands/                           # Slash commands (from this repo)
+│   └── commands/                           # Generated workflow commands
+│       ├── sdd-plan-next-phase.md
+│       ├── sdd-implement.md
+│       ├── sdd-review.md
+│       └── sdd-ship.md
 └── CLAUDE.md                              # Project context for Claude Code
 ```
-
-## Commands reference
-
-| Command | What it does |
-|---------|-------------|
-| `/sdd-bootstrap` | Create mission.md, tech-stack.md, roadmap.md, and conventions.md interactively |
-| `/sdd-plan-next-phase` | Find next roadmap phase, create branch + spec, auto-review |
-| `/sdd-implement` | Build from phase spec, verify validation criteria |
-| `/sdd-review` | Review branch changes for consistency and correctness |
-| `/sdd-ship` | Validate, commit, push, create PR (asks before committing) |
