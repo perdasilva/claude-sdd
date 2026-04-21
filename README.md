@@ -4,7 +4,7 @@ A set of Claude Code slash commands for spec-driven development. Define your pro
 
 ## How it works
 
-1. **Bootstrap** — `/bootstrap` walks you through creating four governing spec documents:
+1. **Bootstrap** — `/bootstrap-sdd` walks you through creating four governing spec documents:
    - `specs/mission.md` — goals, non-goals, design principles, development practices
    - `specs/tech-stack.md` — language, dependencies, project structure, build commands
    - `specs/roadmap.md` — phased implementation plan with deliverables
@@ -24,7 +24,7 @@ Copy the `commands/` directory into your project's `.claude/` folder:
 cp -r /path/to/claude-spec-driven/commands/ your-project/.claude/commands/
 ```
 
-The commands will be available as slash commands in Claude Code: `/bootstrap`, `/next-phase`, `/implement`, `/review`, `/ship`.
+The commands will be available as slash commands in Claude Code: `/bootstrap-sdd`, `/next-phase`, `/implement`, `/review`, `/ship`.
 
 ## Spec structure
 
@@ -50,7 +50,7 @@ your-project/
 
 | Command | What it does |
 |---------|-------------|
-| `/bootstrap` | Create mission.md, tech-stack.md, roadmap.md, and conventions.md interactively |
+| `/bootstrap-sdd` | Create mission.md, tech-stack.md, roadmap.md, and conventions.md interactively |
 | `/next-phase` | Find next roadmap phase, create branch + spec, auto-review |
 | `/implement` | Build from phase spec, verify validation criteria |
 | `/review` | Review branch changes for consistency and correctness |
