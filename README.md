@@ -67,6 +67,14 @@ Open Claude Code in your project directory and run:
 /sdd:bootstrap
 ```
 
+You can optionally provide an initial description to front-load context about your project:
+
+```
+/sdd:bootstrap A CLI tool in Go that syncs GitHub issues to a local SQLite database. Should use cobra for commands, go-github for the API, and have a Makefile for build tasks.
+```
+
+This lets Claude pre-fill answers and focus questions on gaps rather than starting from scratch. Without input, the session is fully interactive.
+
 Claude will walk you through an interactive session:
 
 - **Brownfield detection** — if your project already has code, it analyzes your repo to infer the tech stack, then asks you to confirm or correct

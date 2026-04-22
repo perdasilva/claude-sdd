@@ -8,7 +8,15 @@ Help me define the foundation for this project. We will create governing spec do
 
 Important: Use the AskUserQuestion tool at every step to gather my requirements before writing anything. Do not assume — ask.
 
-## Step 0: Analyze existing project (brownfield detection)
+## Step 0: Process initial context
+
+The user may have provided an initial description of their project as input to this command: $ARGUMENTS
+
+If input was provided, use it as context throughout the remaining steps — pre-fill answers where the input is clear enough, and focus your AskUserQuestion prompts on gaps, ambiguities, or details the input didn't cover. Always confirm your interpretation before writing specs.
+
+If no input was provided, proceed fully interactively as described below.
+
+## Step 1: Analyze existing project (brownfield detection)
 
 Before asking any questions, check whether this project has already been bootstrapped and whether it is greenfield or brownfield:
 
@@ -18,9 +26,9 @@ Before asking any questions, check whether this project has already been bootstr
    - Analyze the existing files to infer: language/runtime, dependencies, project structure, build system, test framework, linting/formatting tools, CI/CD, and containerization.
    - Summarize what you found and present it to the user via AskUserQuestion, asking them to confirm or correct your analysis before proceeding.
    - Use the confirmed analysis as the starting point for each step below — pre-fill what you can derive from the codebase and only ask about what's missing or ambiguous.
-4. If the project is empty (greenfield), proceed directly to Step 1.
+4. If the project is empty (greenfield), proceed directly to Step 2.
 
-## Step 1: Mission (specs/mission.md)
+## Step 2: Mission (specs/mission.md)
 
 For brownfield projects, propose a mission based on existing README, code structure, and comments. Ask the user to confirm or refine.
 
@@ -33,9 +41,9 @@ For greenfield projects, ask me about:
 
 Write specs/mission.md with sections: Goals, Non-Goals, Design Principles, Development Practices.
 
-## Step 2: Tech Stack (specs/tech-stack.md)
+## Step 3: Tech Stack (specs/tech-stack.md)
 
-For brownfield projects, present the inferred tech stack from Step 0 and ask the user to confirm, correct, or add missing details.
+For brownfield projects, present the inferred tech stack from Step 1 and ask the user to confirm, correct, or add missing details.
 
 For greenfield projects, ask me about:
 - Language, runtime, and module system
@@ -48,9 +56,9 @@ For greenfield projects, ask me about:
 
 Write specs/tech-stack.md with sections for each concern, including a project structure tree and a build commands table.
 
-Remember the project's check command (e.g., `make check`, `npm test`, `cargo test`), format command, and whether Docker is used — these will be needed for generating workflow commands in Step 5.
+Remember the project's check command (e.g., `make check`, `npm test`, `cargo test`), format command, and whether Docker is used — these will be needed for generating workflow commands in Step 6.
 
-## Step 3: Roadmap (specs/roadmap.md)
+## Step 4: Roadmap (specs/roadmap.md)
 
 For brownfield projects, propose phases based on what exists vs what's missing or needs improvement. Ask the user to confirm priorities.
 
@@ -61,7 +69,7 @@ For greenfield projects, ask me about:
 
 Write specs/roadmap.md with numbered phases, each containing 3-6 bullet points describing deliverables.
 
-## Step 4: Commit & PR conventions (specs/conventions.md)
+## Step 5: Commit & PR conventions (specs/conventions.md)
 
 For brownfield projects, check existing git history for commit message patterns and any PR templates (.github/PULL_REQUEST_TEMPLATE.md). Propose conventions based on what's already in use.
 
@@ -74,7 +82,7 @@ For greenfield projects, ask me about:
 
 Write specs/conventions.md with sections: Commit Messages, Pull Requests, Branch Naming. Include concrete examples for each format so the conventions are unambiguous.
 
-## Step 5: Generate project-specific workflow commands
+## Step 6: Generate project-specific workflow commands
 
 Create four slash commands under .claude/commands/, customized to this project's tech stack and conventions. Each generated command should be a concise markdown file containing imperative instructions for Claude Code — similar in style to this bootstrap command.
 
@@ -128,16 +136,16 @@ Generate a command organized into three phases:
 - Use AskUserQuestion to confirm before pushing
 - Push the branch and create or update the PR following the project's conventions
 
-## Step 6: CLAUDE.md
+## Step 7: CLAUDE.md
 
 Create a CLAUDE.md at the project root with:
 - Project overview (one paragraph)
 - Architecture summary (if applicable, from tech stack)
 - Key design principles (from mission)
 - How to build, test, and run (from tech stack — list the actual commands)
-- Phase-based workflow description and slash command reference (from the commands generated in Step 5)
+- Phase-based workflow description and slash command reference (from the commands generated in Step 6)
 - Conventions summary (from conventions)
 
-## Step 7: Review
+## Step 8: Review
 
 After writing all files, run a review pass: check for internal consistency across all documents and generated commands, gaps, contradictions, and feasibility issues. For brownfield projects, also verify that the specs accurately reflect the existing codebase. Verify the generated commands reference the correct project-specific commands. Use the AskUserQuestion tool for issues with multiple valid options. Apply straightforward fixes directly.
