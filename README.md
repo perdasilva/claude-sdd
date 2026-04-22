@@ -11,11 +11,11 @@ The core idea: a set of governing specs (mission, tech stack, roadmap, conventio
 The workflow follows a repeating cycle:
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │              /sdd:bootstrap                  │
-   │  Define mission, tech stack, roadmap,        │
-   │  conventions → generate workflow commands    │
-   └──────────────────┬──────────────────────────┘
+   ┌───────────────────────────────────────────────┐
+   │              /sdd:bootstrap                   │
+   │  Define mission, tech stack, roadmap,         │
+   │  conventions → generate workflow commands     │
+   └──────────────────┬────────────────────────────┘
                       │
                       ▼
    ┌──────────────────────────────────────────────┐
@@ -23,7 +23,7 @@ The workflow follows a repeating cycle:
    │  Pick next roadmap phase, create branch,     │◄───┐
    │  write phase spec (plan + requirements +     │    │
    │  validation criteria)                        │    │
-   └──────────────────┬──────────────────────────┘    │
+   └──────────────────┬───────────────────────────┘    │
                       │                                │
                       ▼                                │
    ┌──────────────────────────────────────────────┐    │
@@ -31,14 +31,14 @@ The workflow follows a repeating cycle:
    │  Build from the phase spec, follow task      │    │
    │  groups in order, run checks, verify         │    │
    │  validation criteria                         │    │
-   └──────────────────┬──────────────────────────┘    │
+   └──────────────────┬───────────────────────────┘    │
                       │                                │
                       ▼                                │
    ┌──────────────────────────────────────────────┐    │
    │              /sdd-review                     │    │
    │  Review changes against specs, check         │    │
    │  consistency, fix issues                     │    │
-   └──────────────────┬──────────────────────────┘    │
+   └──────────────────┬───────────────────────────┘    │
                       │                                │
                       ▼                                │
    ┌──────────────────────────────────────────────┐    │
