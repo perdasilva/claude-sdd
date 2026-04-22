@@ -1,19 +1,26 @@
-# claude-spec-driven
+# claude-sdd
 
-A single Claude Code slash command that bootstraps spec-driven development for any project. It creates governing spec documents and generates project-specific workflow commands customized to your tech stack.
+A Claude Code plugin that bootstraps spec-driven development for any project. It creates governing spec documents and generates project-specific workflow commands customized to your tech stack.
+
+## Installation
+
+```bash
+claude plugin marketplace add perdasilva/claude-sdd
+claude plugin install sdd@claude-sdd
+```
 
 ## How it works
 
-Run `/sdd-bootstrap` in any project. It will:
+Run `/sdd:bootstrap` in any project. It will:
 
 1. **Detect brownfield vs greenfield** — analyzes existing code, configs, and docs to pre-fill what it can
-2. **Create governing specs** — walks you through defining:
-   - `specs/mission.md` — goals, non-goals, design principles, development practices
-   - `specs/tech-stack.md` — language, dependencies, project structure, build commands
-   - `specs/roadmap.md` — phased implementation plan with deliverables
-   - `specs/conventions.md` — commit message format, PR templates, branch naming
-3. **Create CLAUDE.md** — project context for Claude Code
-4. **Generate project-specific workflow commands** — four slash commands customized to your tech stack:
+2. **Create governing specs** — walks you through defining mission, tech stack, roadmap, and conventions
+3. **Generate project-specific workflow commands** — four slash commands customized to your tech stack
+4. **Create CLAUDE.md** — project context for Claude Code, referencing the generated commands
+
+Re-running `/sdd:bootstrap` on an already-bootstrapped project is safe — it will ask whether to update, overwrite, or abort.
+
+The generated workflow commands:
 
 | Generated command | What it does |
 |-------------------|-------------|
@@ -23,27 +30,6 @@ Run `/sdd-bootstrap` in any project. It will:
 | `/sdd-ship` | Validate, commit, push, create PR (asks before committing) |
 
 The generated commands use your project's actual build/test/format commands (e.g., `make check` vs `cargo test`) and follow your commit/PR conventions. They live in your project and can evolve with it.
-
-## Installation
-
-Install `sdd-bootstrap` as a user-level command so it's available in any project:
-
-```bash
-# Clone the repo
-git clone https://github.com/perdasilva/claude-spec-driven.git ~/.claude-spec-driven
-
-# Symlink the bootstrap command
-mkdir -p ~/.claude/commands
-ln -s ~/.claude-spec-driven/commands/sdd-bootstrap.md ~/.claude/commands/sdd-bootstrap.md
-```
-
-Then in any project, run `/sdd-bootstrap` to set everything up.
-
-To update:
-
-```bash
-cd ~/.claude-spec-driven && git pull
-```
 
 ## Project structure after bootstrapping
 
@@ -65,4 +51,27 @@ your-project/
 │       ├── sdd-review.md
 │       └── sdd-ship.md
 └── CLAUDE.md                              # Project context for Claude Code
+```
+
+## Plugin structure
+
+```
+claude-sdd/
+├── .claude-plugin/
+│   └── marketplace.json                   # Marketplace manifest
+├── plugins/
+│   └── sdd/
+│       ├── .claude-plugin/
+│       │   └── plugin.json                # Plugin metadata
+│       ├── skills/
+│       │   └── bootstrap/
+│       │       └── SKILL.md               # /sdd:bootstrap command
+│       └── README.md
+└── README.md
+```
+
+## Updating
+
+```bash
+claude plugin update sdd@claude-sdd
 ```

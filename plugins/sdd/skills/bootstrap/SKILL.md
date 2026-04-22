@@ -1,17 +1,24 @@
+---
+name: bootstrap
+description: Bootstrap spec-driven development — create governing specs and generate project-specific workflow commands
+allowed-tools: [Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion]
+---
+
 Help me define the foundation for this project. We will create governing spec documents under a specs/ directory and project-specific workflow commands under .claude/commands/.
 
 Important: Use the AskUserQuestion tool at every step to gather my requirements before writing anything. Do not assume — ask.
 
 ## Step 0: Analyze existing project (brownfield detection)
 
-Before asking any questions, check whether this is a greenfield or brownfield project:
+Before asking any questions, check whether this project has already been bootstrapped and whether it is greenfield or brownfield:
 
-1. Look for existing code, configuration, and documentation in the repository (e.g., package.json, Cargo.toml, go.mod, pyproject.toml, Makefile, Dockerfile, README.md, .github/, src/, etc.).
-2. If the project already has code or configuration:
+1. Check for existing specs/ directory or .claude/commands/sdd-*.md files. If found, this project was previously bootstrapped — use AskUserQuestion to ask the user whether to: (a) update existing specs and commands in place, filling in gaps but preserving customizations, (b) overwrite everything and start fresh, or (c) abort. Proceed according to their choice.
+2. Look for existing code, configuration, and documentation in the repository (e.g., package.json, Cargo.toml, go.mod, pyproject.toml, Makefile, Dockerfile, README.md, .github/, src/, etc.).
+3. If the project already has code or configuration:
    - Analyze the existing files to infer: language/runtime, dependencies, project structure, build system, test framework, linting/formatting tools, CI/CD, and containerization.
    - Summarize what you found and present it to the user via AskUserQuestion, asking them to confirm or correct your analysis before proceeding.
    - Use the confirmed analysis as the starting point for each step below — pre-fill what you can derive from the codebase and only ask about what's missing or ambiguous.
-3. If the project is empty (greenfield), proceed directly to Step 1.
+4. If the project is empty (greenfield), proceed directly to Step 1.
 
 ## Step 1: Mission (specs/mission.md)
 
@@ -41,7 +48,7 @@ For greenfield projects, ask me about:
 
 Write specs/tech-stack.md with sections for each concern, including a project structure tree and a build commands table.
 
-Remember the project's check command (e.g., `make check`, `npm test`, `cargo test`), format command, and whether Docker is used — these will be needed for generating workflow commands in Step 6.
+Remember the project's check command (e.g., `make check`, `npm test`, `cargo test`), format command, and whether Docker is used — these will be needed for generating workflow commands in Step 5.
 
 ## Step 3: Roadmap (specs/roadmap.md)
 
@@ -67,23 +74,14 @@ For greenfield projects, ask me about:
 
 Write specs/conventions.md with sections: Commit Messages, Pull Requests, Branch Naming. Include concrete examples for each format so the conventions are unambiguous.
 
-## Step 5: CLAUDE.md
+## Step 5: Generate project-specific workflow commands
 
-Create a CLAUDE.md at the project root with:
-- Project overview (one paragraph)
-- Architecture summary (if applicable, from tech stack)
-- Key design principles (from mission)
-- How to build, test, and run (from tech stack — list the actual commands)
-- Phase-based workflow description and slash command reference (from the commands generated in Step 6)
-- Conventions summary (from conventions)
-
-## Step 6: Generate project-specific workflow commands
-
-Create four slash commands under .claude/commands/, customized to this project's tech stack and conventions:
+Create four slash commands under .claude/commands/, customized to this project's tech stack and conventions. Each generated command should be a concise markdown file containing imperative instructions for Claude Code — similar in style to this bootstrap command.
 
 ### .claude/commands/sdd-plan-next-phase.md
 
 Generate a command that:
+- Checks for uncommitted changes; if any, uses AskUserQuestion to ask whether to stash or abort
 - Checks out main and pulls latest
 - Finds the next phase in specs/roadmap.md
 - Creates a new branch
@@ -112,16 +110,33 @@ Generate a command that:
 
 ### .claude/commands/sdd-ship.md
 
-Generate a command that:
-- Runs the project's actual check command
-- Runs the project's build/container verification if applicable (e.g., `make docker-build` — only if Docker was set up in tech stack)
-- Verifies validation criteria from the phase spec (if one exists)
-- Checks CLAUDE.md freshness
-- Runs the project's format command
-- Reads specs/conventions.md for commit and PR format
-- Uses AskUserQuestion to confirm before committing
-- Handles squashing post-review fixes into a single commit
-- Creates or updates the PR following the project's conventions
+Generate a command organized into three phases:
+
+**Phase 1 — Verify:**
+- Run the project's actual check command
+- Run the project's build/container verification if applicable (e.g., `make docker-build` — only if Docker was set up in tech stack)
+- Verify validation criteria from the phase spec (if one exists)
+- Check CLAUDE.md freshness
+- Run the project's format command
+
+**Phase 2 — Commit:**
+- Read specs/conventions.md for commit and PR format
+- Use AskUserQuestion to confirm before committing
+- Handle squashing post-review fixes into a single commit
+
+**Phase 3 — Publish:**
+- Use AskUserQuestion to confirm before pushing
+- Push the branch and create or update the PR following the project's conventions
+
+## Step 6: CLAUDE.md
+
+Create a CLAUDE.md at the project root with:
+- Project overview (one paragraph)
+- Architecture summary (if applicable, from tech stack)
+- Key design principles (from mission)
+- How to build, test, and run (from tech stack — list the actual commands)
+- Phase-based workflow description and slash command reference (from the commands generated in Step 5)
+- Conventions summary (from conventions)
 
 ## Step 7: Review
 
