@@ -11,11 +11,11 @@ The core idea: a set of governing specs (mission, tech stack, roadmap, conventio
 The workflow follows a repeating cycle:
 
 ```
-   ┌───────────────────────────────────────────────┐
-   │              /sdd:bootstrap                   │
-   │  Define mission, tech stack, roadmap,         │
-   │  conventions → generate workflow commands     │
-   └──────────────────┬────────────────────────────┘
+   ┌──────────────────────────────────────────────┐
+   │              /bootstrap                     │
+   │  Define mission, tech stack, roadmap,       │
+   │  conventions → generate workflow commands   │
+   └──────────────────┬─────────────────────────┘
                       │
                       ▼
    ┌──────────────────────────────────────────────┐
@@ -64,13 +64,13 @@ claude plugin install sdd@claude-sdd
 Open Claude Code in your project directory and run:
 
 ```
-/sdd:bootstrap
+/bootstrap
 ```
 
 You can optionally provide an initial description to front-load context about your project:
 
 ```
-/sdd:bootstrap A CLI tool in Go that syncs GitHub issues to a local SQLite database. Should use cobra for commands, go-github for the API, and have a Makefile for build tasks.
+/bootstrap A CLI tool in Go that syncs GitHub issues to a local SQLite database. Should use cobra for commands, go-github for the API, and have a Makefile for build tasks.
 ```
 
 This lets Claude pre-fill answers and focus questions on gaps rather than starting from scratch. Without input, the session is fully interactive.
@@ -80,14 +80,14 @@ Claude will walk you through an interactive session:
 - **Brownfield detection** — if your project already has code, it analyzes your repo to infer the tech stack, then asks you to confirm or correct
 - **Mission** — define what the project does, its goals, non-goals, and design principles
 - **Tech stack** — language, dependencies, build/test/format commands, project structure
-- **Roadmap** — break the work into numbered phases with deliverables
+- **Roadmap** — break the work into numbered phases with deliverables, either in a local file (`specs/roadmap.md`) or as GitHub issues with a configurable label
 - **Conventions** — commit message format, PR templates, branch naming
-- **Command generation** — creates four workflow commands customized to your stack
+- **Command generation** — creates five workflow commands customized to your stack
 - **CLAUDE.md** — generates project context so Claude Code understands your project
 
-After bootstrapping, you'll have a `specs/` directory with your governing specs and four slash commands under `.claude/commands/`. Re-running `/sdd:bootstrap` on an already-bootstrapped project is safe — it will ask whether to update, overwrite, or abort.
+After bootstrapping, you'll have a `specs/` directory with your governing specs and five slash commands under `.claude/commands/`. Re-running `/bootstrap` on an already-bootstrapped project is safe — it will ask whether to update, overwrite, or abort.
 
-> **Note:** After bootstrapping, restart Claude Code so it picks up the newly generated slash commands. The `/sdd-plan-next-phase`, `/sdd-implement`, `/sdd-review`, and `/sdd-ship` commands won't be available until the session is restarted.
+> **Note:** After bootstrapping, restart Claude Code so it picks up the newly generated slash commands. The `/sdd-plan-next-phase`, `/sdd-implement`, `/sdd-review`, `/sdd-ship`, and `/sdd-ideate` commands won't be available until the session is restarted.
 
 ### 2. Plan a phase
 
@@ -131,6 +131,14 @@ Three phases:
 
 Then go back to step 2 for the next phase.
 
+### Adding new phases
+
+At any point, run `/sdd-ideate` to brainstorm and refine new roadmap phases. It reads your existing specs, walks you through an interactive ideation session, and adds the resulting phases to your roadmap (file or GitHub issues). You can optionally pass a starting idea:
+
+```
+/sdd-ideate add webhook support for real-time notifications
+```
+
 ## Project structure after bootstrapping
 
 ```
@@ -138,7 +146,7 @@ your-project/
 ├── specs/
 │   ├── mission.md                          # Goals, principles, practices
 │   ├── tech-stack.md                       # Dependencies, structure, commands
-│   ├── roadmap.md                          # Phased implementation plan
+│   ├── roadmap.md                          # Phased plan (file-based mode only)
 │   ├── conventions.md                      # Commit, PR, and branch conventions
 │   └── YYYY-MM-DD-phase-N-name/           # Per-phase specs (created by /sdd-plan-next-phase)
 │       ├── plan.md                         # Numbered task groups
@@ -149,7 +157,8 @@ your-project/
 │       ├── sdd-plan-next-phase.md
 │       ├── sdd-implement.md
 │       ├── sdd-review.md
-│       └── sdd-ship.md
+│       ├── sdd-ship.md
+│       └── sdd-ideate.md
 └── CLAUDE.md                              # Project context for Claude Code
 ```
 
@@ -165,7 +174,7 @@ claude-sdd/
 │       │   └── plugin.json                # Plugin metadata
 │       ├── skills/
 │       │   └── bootstrap/
-│       │       └── SKILL.md               # /sdd:bootstrap command
+│       │       └── SKILL.md               # /bootstrap command
 │       └── README.md
 └── README.md
 ```
