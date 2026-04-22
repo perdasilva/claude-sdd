@@ -1,6 +1,6 @@
 {
   "name": "sdd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Spec-driven development — bootstrap governing specs and generate project-specific workflow commands",
   "author": {
     "name": "perdasilva"
